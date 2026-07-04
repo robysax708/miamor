@@ -175,6 +175,12 @@ st.markdown(
         margin-bottom: 6px;
         box-shadow: 0 14px 30px rgba(0,0,0,0.5);
     }
+    .card-text {
+        color: #2a2115 !important;
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 14px;
+    }
     .stage-eyebrow {
         font-family: 'Courier New', monospace;
         font-size: 12px;
@@ -188,11 +194,32 @@ st.markdown(
         font-family: Georgia, serif;
         font-size: 22px;
         margin: 0 0 12px;
-        color: #2a2115;
+        color: #7c2323;
+    }
+    /* Texto padrao do Streamlit (fora dos cards) precisa ficar claro no fundo escuro */
+    .stApp p, .stApp span, .stApp label, .stApp li,
+    .stMarkdown, .stMarkdown p,
+    .streamlit-expanderHeader, .streamlit-expanderContent,
+    div[data-testid="stExpander"] p,
+    div[data-testid="stExpander"] summary {
+        color: #ece2c8 !important;
+    }
+    div[data-testid="stExpander"] {
+        border: 1px solid #4a4030 !important;
+        background: rgba(255,255,255,0.02);
+    }
+    .signature {
+        text-align: center;
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 15px;
+        color: #d9b98a !important;
+        margin: -10px 0 26px;
     }
     .clue-text {
         font-family: 'Courier New', monospace;
         background: #c9bb96;
+        color: #2a2115;
         border-left: 3px solid #7c2323;
         padding: 14px 16px;
         font-size: 15px;
@@ -259,14 +286,19 @@ st.markdown(
 st.markdown('<div class="case-label">Arquivo Confidencial &middot; Caso Nº 14.07</div>', unsafe_allow_html=True)
 st.markdown('<div class="case-title">O Enigma do Aniversário</div>', unsafe_allow_html=True)
 st.markdown('<div class="case-sub">3 pistas. 1 verdade. Um presente esperando para ser encontrado.</div>', unsafe_allow_html=True)
+st.markdown('<div class="signature">Feito pelo seu amor, com 🤎</div>', unsafe_allow_html=True)
 
 # ============================================================
 # ETAPA 1 — ESPELHO
 # ============================================================
-st.markdown('<div class="dossie-card">', unsafe_allow_html=True)
-st.markdown('<div class="stage-eyebrow">Etapa I &middot; A Pista do Espelho</div>', unsafe_allow_html=True)
-st.markdown('<div class="stage-heading">Nem tudo que se lê é o que parece</div>', unsafe_allow_html=True)
-st.write("Pegue o envelope que você recebeu. Decifre o que está escrito nele e digite a resposta abaixo.")
+st.markdown(
+    '<div class="dossie-card">'
+    '<div class="stage-eyebrow">Etapa I &middot; A Pista do Espelho</div>'
+    '<div class="stage-heading">Nem tudo que se lê é o que parece</div>'
+    '<div class="card-text">Pegue o envelope que você recebeu. Decifre o que está escrito nele e digite a resposta abaixo.</div>'
+    '</div>',
+    unsafe_allow_html=True,
+)
 with st.expander("preciso de uma pista"):
     st.write("Leonardo da Vinci escrevia assim para proteger seus segredos. Um espelho (ou a câmera frontal do celular) resolve.")
 
@@ -282,19 +314,22 @@ if st.session_state.stage == 1:
             st.error("Isso não confere com as evidências. Olhe de novo o envelope.")
 else:
     st.success("✓ Decifrado")
-st.markdown("</div>", unsafe_allow_html=True)
 
 # ============================================================
 # ETAPA 2 — SÍMBOLOS
 # ============================================================
 if st.session_state.stage >= 2:
-    st.markdown('<div class="dossie-card">', unsafe_allow_html=True)
-    st.markdown('<div class="stage-eyebrow">Etapa II &middot; O Código dos Símbolos</div>', unsafe_allow_html=True)
-    st.markdown('<div class="stage-heading">Uma letra, uma forma</div>', unsafe_allow_html=True)
-    st.write("Cada símbolo abaixo representa uma letra. Use a chave para decifrar a mensagem e descubra onde está o próximo envelope.")
-    st.markdown(f'<div class="clue-text">{pigpen_key_html()}</div>', unsafe_allow_html=True)
-    st.write("Mensagem cifrada:")
-    st.markdown(f'<div class="clue-text">{pigpen_message_html(reverse_str(ANSWERS[2]))}</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="dossie-card">'
+        '<div class="stage-eyebrow">Etapa II &middot; O Código dos Símbolos</div>'
+        '<div class="stage-heading">Uma letra, uma forma</div>'
+        '<div class="card-text">Cada símbolo abaixo representa uma letra. Use a chave para decifrar a mensagem e descubra onde está o próximo envelope.</div>'
+        f'<div class="clue-text">{pigpen_key_html()}</div>'
+        '<div class="card-text" style="margin-bottom:6px;">Mensagem cifrada:</div>'
+        f'<div class="clue-text">{pigpen_message_html(reverse_str(ANSWERS[2]))}</div>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
     with st.expander("preciso de uma pista"):
         st.write("Compare o formato e a posição de cada símbolo com a chave acima. Se tiver um pontinho no meio, é uma letra do segundo grupo.")
 
@@ -310,7 +345,6 @@ if st.session_state.stage >= 2:
                 st.error("Ainda não é isso. Confira símbolo por símbolo.")
     else:
         st.success("✓ Decifrado")
-    st.markdown("</div>", unsafe_allow_html=True)
 else:
     st.markdown('<div class="locked-box">🔒 Decifrem a Etapa I para destravar</div>', unsafe_allow_html=True)
 
@@ -318,14 +352,6 @@ else:
 # ETAPA 3 — MISTO (NÚMEROS + LETRAS)
 # ============================================================
 if st.session_state.stage >= 3:
-    st.markdown('<div class="dossie-card">', unsafe_allow_html=True)
-    st.markdown('<div class="stage-eyebrow">Etapa III &middot; O Código Final</div>', unsafe_allow_html=True)
-    st.markdown('<div class="stage-heading">Números e letras, juntos</div>', unsafe_allow_html=True)
-    st.write(
-        "Este envelope tem dois códigos. Um usa números (linha e coluna formam uma letra), "
-        "o outro usa letras (a posição dela no alfabeto forma um número: A=1, B=2... Z=26). "
-        "Decifrem os dois para encerrar o caso."
-    )
     tabela = (
         "Tabela (linha,coluna):\n"
         "A=11 B=12 C=13 D=14 E=15\n"
@@ -334,19 +360,24 @@ if st.session_state.stage >= 3:
         "P=41 Q=42 R=43 S=44 T=45\n"
         "U=51 V=52 W=53 X=54 Y=55  Z=(sem par, use 00)"
     )
-    st.markdown(f'<div class="clue-text">{tabela}</div>', unsafe_allow_html=True)
-    with st.expander("preciso de uma pista"):
-        st.write("No código numérico, separe os números de dois em dois. No código de letras, cada letra sozinha é um número.")
-
-    st.write("Código em letras (revela uma data):")
-    st.markdown('<div class="clue-text" style="text-align:center; font-size:22px; letter-spacing:6px;">J &nbsp; A</div>', unsafe_allow_html=True)
-
-    st.write("Código em números (revela um local):")
     st.markdown(
+        '<div class="dossie-card">'
+        '<div class="stage-eyebrow">Etapa III &middot; O Código Final</div>'
+        '<div class="stage-heading">Números e letras, juntos</div>'
+        '<div class="card-text">Este envelope tem dois códigos. Um usa números (linha e coluna formam uma letra), '
+        'o outro usa letras (a posição dela no alfabeto forma um número: A=1, B=2... Z=26). '
+        'Decifrem os dois para encerrar o caso.</div>'
+        f'<div class="clue-text">{tabela}</div>'
+        '<div class="card-text" style="margin-bottom:6px;">Código em letras (revela uma data):</div>'
+        '<div class="clue-text" style="text-align:center; font-size:22px; letter-spacing:6px;">J &nbsp; A</div>'
+        '<div class="card-text" style="margin-bottom:6px;">Código em números (revela um local):</div>'
         '<div class="clue-text" style="text-align:center; font-size:18px; letter-spacing:2px;">'
-        "41 11 43 42 51 15 / 45 11 42 51 11 43 11 32</div>",
+        '41 11 43 42 51 15 / 45 11 42 51 11 43 11 32</div>'
+        '</div>',
         unsafe_allow_html=True,
     )
+    with st.expander("preciso de uma pista"):
+        st.write("No código numérico, separe os números de dois em dois. No código de letras, cada letra sozinha é um número.")
 
     if st.session_state.stage == 3:
         with st.form("form3", clear_on_submit=False):
@@ -361,7 +392,6 @@ if st.session_state.stage >= 3:
                 st.error("Algo ainda não fechou. Confira os dois códigos com calma.")
     else:
         st.success("✓ Decifrado")
-    st.markdown("</div>", unsafe_allow_html=True)
 elif st.session_state.stage == 2:
     st.markdown('<div class="locked-box">🔒 Decifrem a Etapa II para destravar</div>', unsafe_allow_html=True)
 
