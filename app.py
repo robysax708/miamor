@@ -18,8 +18,8 @@ FINALE_TEXT = (
     'detalhe seu — desde o "gira gira" até o sonho que você carrega desde pequena.'
     '<br><br>O presente é uma <b>Instax Mini 12 da Fujifilm, rosa</b> — pra gente '
     'registrar os próximos capítulos em Polaroid.'
-    '<br><br>Te espero no <b>Parque Taquaral</b>, dia <b>10/01</b>. '
-    'Feliz aniversário, detetive. 📸💗'
+    '<br><br>- <b>-</b>, dia <b>-</b>. '
+    'Feliz aniversário, Meu amor. 📸💗'
 )
 
 # ============================================================
